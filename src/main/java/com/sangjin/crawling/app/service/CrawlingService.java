@@ -2,6 +2,7 @@ package com.sangjin.crawling.app.service;
 
 import com.sangjin.crawling.app.repository.BookRepository;
 import lombok.AllArgsConstructor;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
@@ -26,40 +27,47 @@ public class CrawlingService {
         //SchoolTest schoolBookList = bookRepository.getSchoolBookList();
 
         String bookTitle = "나쁜 어린이 표";
-        String base_url = "https://openapi.naver.com/v1/search/book_adv.json?d_titl=나쁜 어린이 표&display=1";
+        String base_url = "https://openapi.naver.com/v1/search/book_adv.json?d_titl=api&display=1";
         StringBuilder sb = new StringBuilder();
         try {
             URL url = new URL(base_url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("HOST", "openapi.naver.com");
             con.setRequestProperty("X-Naver-Client-Id", "XgTmsuF_h7cw9guw4TZ9");
             con.setRequestProperty("X-Naver-Client-Secret", "dJYEbql8FN");
 
             con.setDoOutput(true);
             System.out.println("에러시점 확인용");
             //데이터 읽어오기
-            InputStream is = con.getInputStream();
+            if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                System.out.println("HTTP_OK 확인");
+                BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
 
+                String line;
 
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            String line;
-
-            while ((line = br.readLine()) != null) {
-                sb.append(line);
+                while ((line = br.readLine()) != null) {
+                    sb.append(line);
+                    System.out.println("Line 확인");
+                }
+                br.close();
+                con.disconnect();
+            } else{
+                System.err.println(con.getResponseMessage());
             }
-            con.disconnect();
-
             JSONObject result;
+            System.out.println("여기는 오나");
+
             result = (JSONObject) new JSONParser().parse(sb.toString());
             StringBuilder out = new StringBuilder();
-            out.append(result.get("status") + " : " + result.get("status_message") + "\n");
+            out.append(result.get("status") + " : " + result.get("status_message"));
 
-            JSONObject title = (JSONObject) result.get("title");
+            JSONArray items = (JSONArray) result.get("items");
 
-            String printTest = " " + title;
+            String printTest = " " + items;
+            //TODO : JSONArray에서 원하는 데이터 가져오기
             System.out.println(printTest);
+
 
 
         } catch (Exception e) {

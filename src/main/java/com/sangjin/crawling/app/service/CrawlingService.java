@@ -20,7 +20,7 @@ public class CrawlingService {
 
     private static BookRepository bookRepository;
 
-    @Transactional
+
     public static Object crawling() {
 
         //School_test에서 title,isbn 1개만 가져오기(네이버 api 하루 제한 수-25000-때문에)

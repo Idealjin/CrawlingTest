@@ -1,10 +1,9 @@
-package com.sangjin.crawling.app.controller;
+package com.sangjin.crawling.app.app.controller;
 
-import com.sangjin.crawling.app.common.ApiResponse;
-import com.sangjin.crawling.app.common.ApiStatus;
-import com.sangjin.crawling.app.service.CrawlingService;
+import com.sangjin.crawling.app.app.common.ApiResponse;
+import com.sangjin.crawling.app.app.common.ApiStatus;
+import com.sangjin.crawling.app.app.service.CrawlingService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

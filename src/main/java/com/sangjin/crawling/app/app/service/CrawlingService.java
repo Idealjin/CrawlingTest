@@ -1,18 +1,17 @@
-package com.sangjin.crawling.app.service;
+package com.sangjin.crawling.app.app.service;
 
-import com.sangjin.crawling.app.repository.BookRepository;
+import com.sangjin.crawling.app.app.repository.BookRepository;
 import lombok.AllArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 
 @AllArgsConstructor
 @Service
@@ -26,16 +25,20 @@ public class CrawlingService {
         //School_test에서 title,isbn 1개만 가져오기(네이버 api 하루 제한 수-25000-때문에)
         //SchoolTest schoolBookList = bookRepository.getSchoolBookList();
 
-        String bookTitle = "나쁜 어린이 표";
-        String base_url = "https://openapi.naver.com/v1/search/book_adv.json?d_titl=api&display=1";
+
         StringBuilder sb = new StringBuilder();
         try {
+            String bookTitle = "나쁜 어린이 표";
+            bookTitle = bookTitle.replace(" ", "");
+            bookTitle = URLEncoder.encode(bookTitle, "utf-8");
+            String base_url = "https://openapi.naver.com/v1/search/book_adv.json?d_titl="+ bookTitle +"&display=1";
+            System.out.println(base_url);
             URL url = new URL(base_url);
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             con.setRequestProperty("Content-Type", "application/json");
-            con.setRequestProperty("X-Naver-Client-Id", "XgTmsuF_h7cw9guw4TZ9");
-            con.setRequestProperty("X-Naver-Client-Secret", "dJYEbql8FN");
+            con.setRequestProperty("X-Naver-Client-Id", "ID");
+            con.setRequestProperty("X-Naver-Client-Secret", "PW");
 
             con.setDoOutput(true);
             System.out.println("에러시점 확인용");
@@ -63,10 +66,14 @@ public class CrawlingService {
             out.append(result.get("status") + " : " + result.get("status_message"));
 
             JSONArray items = (JSONArray) result.get("items");
-
+            //JSONArray에서 title,isbn 추출
+            JSONObject item = (JSONObject) items.get(0);
+            String title = (String) item.get("title");
+            String isbn = (String) item.get("isbn");
             String printTest = " " + items;
-            //TODO : JSONArray에서 원하는 데이터 가져오기
             System.out.println(printTest);
+            System.out.println(title);
+            System.out.println(isbn);
 
 
 

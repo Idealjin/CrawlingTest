@@ -1,4 +1,4 @@
-package com.sangjin.crawling.app.common.config;
+package com.sangjin.crawling.app.app.common.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

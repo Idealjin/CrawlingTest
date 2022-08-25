@@ -1,4 +1,4 @@
-package com.sangjin.crawling.app.domain;
+package com.sangjin.crawling.app.app.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

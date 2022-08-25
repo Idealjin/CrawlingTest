@@ -1,4 +1,4 @@
-package com.sangjin.crawling.app.common;
+package com.sangjin.crawling.app.app.common;
 
 import lombok.Getter;
 

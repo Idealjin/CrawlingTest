@@ -41,17 +41,14 @@ public class CrawlingService {
             con.setRequestProperty("X-Naver-Client-Secret", "PW");
 
             con.setDoOutput(true);
-            System.out.println("에러시점 확인용");
             //데이터 읽어오기
             if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                System.out.println("HTTP_OK 확인");
                 BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream(), "utf-8"));
 
                 String line;
 
                 while ((line = br.readLine()) != null) {
                     sb.append(line);
-                    System.out.println("Line 확인");
                 }
                 br.close();
                 con.disconnect();
@@ -59,7 +56,6 @@ public class CrawlingService {
                 System.err.println(con.getResponseMessage());
             }
             JSONObject result;
-            System.out.println("여기는 오나");
 
             result = (JSONObject) new JSONParser().parse(sb.toString());
             StringBuilder out = new StringBuilder();
